@@ -45,4 +45,3 @@ class Output:
 
     def __repr__(self):
         return self.stdout + self.stderr
-
