@@ -24,6 +24,8 @@ class Submission:
         self.compile_command = []
         self.run_command = []
         self.test_cases_input = []
+        self.file_extension = ""
+        self.file_contents = ""
 
 
 class Testcase:
@@ -45,4 +47,3 @@ class Output:
 
     def __repr__(self):
         return self.stdout + self.stderr
-
