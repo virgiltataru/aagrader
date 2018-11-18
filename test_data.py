@@ -11,9 +11,6 @@ tc2.id = "2"
 tc2.input = """21\n34"""
 tc2.timeout = 1
 python3_source_code_add_two_numbers = """
-# s = input()
-# print(s)
-# numbers = s.split()
 number1 = input()
 number2 = input()
 

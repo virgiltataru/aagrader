@@ -3,6 +3,7 @@ import os
 import uuid
 import shutil
 import docker
+import time
 
 from Classes import Output, Status, Testcase
 
@@ -45,6 +46,7 @@ def execute_tests(run_command, test_cases, out_compile, result):
             out_test.test_case_id = test_case.id
 
             if run_command:
+                start_time = time.time()
                 completed = subprocess.run(run_command,
                                            stdout=subprocess.PIPE,
                                            stderr=subprocess.PIPE,
@@ -52,7 +54,7 @@ def execute_tests(run_command, test_cases, out_compile, result):
                                            timeout=test_case.timeout)
                 out_test.stdout = completed.stdout.decode('utf-8').rstrip()
                 out_test.stderr = completed.stderr.decode('utf-8').rstrip()
-
+                out_test.time = time.time() - start_time
                 if completed.returncode:
                     out_test.status = Status.RUNTIME_ERROR
                 else:
