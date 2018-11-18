@@ -70,7 +70,7 @@ class Json(types.TypeDecorator):
         # SQL -> Python
         return json.loads(value)
 
-class Timezone(types.TypeDecorator):
+sclass Timezone(types.TypeDecorator):
     impl = types.String(255)
 
     def process_bind_param(self, value, dialect):
