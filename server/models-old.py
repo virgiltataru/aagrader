@@ -1,3 +1,4 @@
+# TODO: Split models into distinct .py files
 from werkzeug.exceptions import BadRequest
 
 from flask_sqlalchemy import SQLAlchemy
@@ -152,20 +153,22 @@ class User(Model, UserMixin):
     def __repr__(self):
         return '<User {0}>'.format(self.email)
 
-    def enrollments(self):
-        query = (Enrollment.query.join(Enrollment.course)
-                           .filter(Enrollment.user_id == self.id)
-        return query.all()
-
-    @cache.memoize(120)
-    def is_enrolled(self, course_id):
+    def enrollments(self, roles=None):
+        if roles is None:
+            roles = [STUDENT_ROLE]
         query = (Enrollment.query.join(Enrollment.course)
                            .options(db.contains_eager(Enrollment.course))
                            .filter(Enrollment.user_id == self.id)
-                           .filter(Enrollment.course_id== course_id)
-        if query == '':
-            return False
-        return True
+                           .filter(Enrollment.role.in_(roles))
+                           .order_by(Course.created.desc()))
+        return query.all()
+
+    @cache.memoize(120)
+    def is_enrolled(self, course_id, roles=VALID_ROLES):
+        for enroll in self.participations:
+            if enroll.course_id == course_id and enroll.role in roles:
+                return enroll
+        return False
 
     @hybrid_property
     def identifier(self):
@@ -178,7 +181,9 @@ class User(Model, UserMixin):
     def is_staff(self):
         if self.is_admin:
             return True
-        return False
+        query = (Enrollment.query.filter(Enrollment.user_id == self.id)
+                                 .filter(Enrollment.role.in_(STAFF_ROLES)))
+        return query.count() > 0
 
     @staticmethod
     def get_by_id(uid):
@@ -197,23 +202,6 @@ class User(Model, UserMixin):
         """ Get a User with the given email address, or None."""
         return User.query.filter_by(email=email).one_or_none()
 
-class Semester(Model):
-    name = db.Column(db.String(255), primary_key=True)
-
-
-
-    def __repr__(self):
-        return '<Assignment {0!r}>'.format(self.offering)
-
-    @staticmethod
-    def get_all_semesters():
-        return Semesters.all()
-
-    def add_semester(assignment_id):
-        # see if user is an admin
-        return Submission.query.filter_by(assignment_id=assignment_id).one_or_none()
-
-
 class Course(Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False, unique=True, index=True)
@@ -222,7 +210,6 @@ class Course(Model):
     website = db.Column(db.String(255))
     active = db.Column(db.Boolean(), nullable=False, default=True)
     timezone = db.Column(Timezone, nullable=False, default=pytz.timezone(TIMEZONE))
-    semester= db.Column(db.String(255), nullable= False)
 
     @classmethod
     def can(cls, obj, user, action):
@@ -241,12 +228,22 @@ class Course(Model):
     def by_name(name):
         return Course.query.filter_by(offering=name).one_or_none()
 
-    def by_id(id):
-        return Course.query.filter_by(id=id)
-
     @property
     def display_name_with_semester(self):
-        return self.display_name + " " + Course.query.filter_by(self.id).semester
+        year = self.offering[-2:]
+        if "fa" in self.offering[-4:]:
+            semester = "Fall"
+        elif "sp" in self.offering[-4:]:
+            semester = "Spring"
+        elif "wi" in self.offering[-4:]:
+            semester = "Winter"
+        elif "au" in self.offering[-4:]:
+            semester = "Autumn"
+        elif "su" in self.offering[-4:]:
+            semester = "Summer"
+        else:
+            return self.display_name + " (20{0})".format(year)
+        return self.display_name + " ({0} 20{1})".format(semester, year)
 
     def statistics(self):
         assignments = self.assignments
@@ -269,109 +266,34 @@ class Course(Model):
         }
 
 
-    def is_enrolled(self, user_id):
+    def is_enrolled(self, user):
         return Enrollment.query.filter_by(
-            user_id=user_id,
-            course_id=self.course_id,
-            staff= False
+            user=user,
+            course=self
         ).count() > 0
 
-    def get_participants(self, course_id, staff):
+    def get_participants(self, roles):
         return (Enrollment.query
                           .options(db.joinedload('user'))
-                          .filter(Enrollment.staff = staff,
-                                  Enrollment.course_id == self.id)
+                          .filter(Enrollment.role.in_(roles),
+                                  Enrollment.course == self)
                           .all())
 
-    def get_staff(self, course_id):
-        return self.get_participants(course_id, staff= True)
+    def get_staff(self):
+        return self.get_participants(STAFF_ROLES)
 
     def get_students(self):
-        return self.get_participants(course_id, staff= False)
+        return self.get_participants([STUDENT_ROLE])
 
     def initialize_content(self, user):
         """ When a course is created, add the creating user as an instructor
         and then create an example assignment.
         """
         enroll = Enrollment(course=self, user_id=user.id, role=INSTRUCTOR_ROLE)
-        assign = Assignment(course_id=self, display_name="Example",
+        assign = Assignment(course=self, display_name="Example",
                             name=self.offering + '/example',
                             max_group_size=2, uploads_enabled=True,
                             due_date=dt.datetime.now() + dt.timedelta(days=7),
                             lock_date=dt.datetime.now() + dt.timedelta(days=8))
         db.session.add_all([enroll, assign])
         db.session.commit()
-
-
-class Assignment(Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255), nullable=False, unique=True, index=True)
-    display_name = db.Column(db.String(255), nullable=False)
-    active = db.Column(db.Boolean(), nullable=False, default=True)
-    timezone = db.Column(Timezone, nullable=False, default=pytz.timezone(TIMEZONE))
-    course_id= db.Column(db.String(255), nullable=False)
-    num_of_students= db.Column(db.Integer)
-    due_date= db.Column(DateTime)
-    max_group _size= db.Column(db.Integer)
-
-
-    def __repr__(self):
-        return '<Assignment {0!r}>'.format(self.offering)
-
-    @staticmethod
-    def by_name(name):
-        return Assignment.query.filter_by(offering=name).one_or_none()
-
-    def get_by_courseid(course_id):
-        return Assignment.query.filter_by(course_id=course_id).one_or_none()
-
-    def by_id(id):
-        return Assignment.query.filter_by(id=id)
-
-class Enrollment(Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-    course_id = db.Column(db.Integer)
-    staff = db.Column(db.Boolean(), nullable=False, default=False)
-
-
-    def __repr__(self):
-        return '<Assignment {0!r}>'.format(self.offering)
-
-    @staticmethod
-    def by_id(name):
-        return Assignment.query.filter_by(id=id).one_or_none()
-
-    def get_course_id(course_id):
-        return Assignment.query.filter_by(course_id=course_id).one_or_none()
-
-    def by_user_id(id):
-        return Assignment.query.filter_by(user_id=user_id).one_or_none()
-
-class Submission(Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-    assignment_id = db.Column(db.Integer)
-    course_id = db.Column(db.Integer)
-    submitted_code = name = db.Column(db.String(5000))
-    results= db.Column(db.String(200))
-
-
-    def __repr__(self):
-        return '<Assignment {0!r}>'.format(self.offering)
-
-    @staticmethod
-    def by_id(name):
-        return Submission.query.filter_by(id=id).one_or_none()
-
-    def get_assignment_id(assignment_id):
-        return Submission.query.filter_by(assignment_id=assignment_id).one_or_none()
-
-    def by_user_id(id):
-        return Assignment.query.filter_by(user_id=user_id).one_or_none()
-
-    def by_course_id(id):
-        return Assignment.query.filter_by(course_id=user_id).one_or_none()
-
-    def by_user_assignment_id(user_id, assignment_id):
-        return Assignment.query.filter_by(user_id=user_id).filter_by(assignment_id=assignment_id).one_or_none()
