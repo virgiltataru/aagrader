@@ -10,10 +10,17 @@ tc2 = Testcase()
 tc2.id = "2"
 tc2.input = """21\n34"""
 tc2.timeout = 1
-python3_source_code_add_two_numbers = """
+
+
+source_code_add_two_numbers = """
 number1 = input()
 number2 = input()
 
 sum = int(number1) + int(number2)
 print(sum)
+"""
+
+source_code_infinte_loop = """
+while(True):
+    print(1)
 """
