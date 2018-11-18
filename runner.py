@@ -2,6 +2,7 @@ import subprocess
 import os
 import uuid
 import shutil
+import docker
 
 from Classes import Output, Status, Testcase
 
