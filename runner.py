@@ -13,7 +13,7 @@ default_test_case.id = "1"
 default_testcase_array = [default_test_case]
 
 
-def run(source, source_extension, compile_commands, run_commands, test_cases=default_testcase_array, file_contents = None, file_extension = None):
+def run(source, source_extension, compile_commands, run_commands, test_cases=default_testcase_array, file_contents = None, file_name = None):
     result = []
     current_directory = os.getcwd()
     temp_dir = uuid.uuid4().hex
@@ -83,14 +83,13 @@ def compile_source(compile_commands, source_file_name, result):
 
 def create_source_file(source, source_extension):
     source_file_name = "Source." + source_extension
-    text_file = open(source_file_name, "w")
+    text_file = open(source_file_name, "w+")
     text_file.write(source)
     text_file.close()
     return source_file_name
 
-def create_text_file(file_contents, file_extension):
-    file_name = "input"+ file_extension
-    text_file = open(file_name, "w")
+def create_text_file(file_contents, file_name):
+    text_file = open(file_name, "w+")
     text_file.write(file_contents)
     text_file.close()
     return file_name
