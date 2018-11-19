@@ -27,7 +27,7 @@ while(True):
 
 tc3 = Testcase()
 tc3.id = "3"
-tc3.input = """1\n10\n12\n101\n101\n12"""
+tc3.input = """20\n10\n12\n101\n101\n112\n151\n178\n179\n181\n211\n244\n266\n277\n290\n300\n400\n411\n413\n434\n567\n434"""
 tc3.timeout = 1
 
 
@@ -65,9 +65,9 @@ else:
 """
 
 source_binary_search = """
-
+nr_of_elements = int(input())
 arr = []
-for i in range(5):
+for i in range(nr_of_elements):
     arr.append(input())
 
 x = input()
@@ -92,6 +92,27 @@ def binarySearch (arr, l, r, x):
 
 result = binarySearch(arr, 0, len(arr)-1, x)
 
+if result != -1:
+    print ("Element is present at index %d" % result)
+else:
+    print ("Element is not present in array")
+"""
+
+source_linear_search = """
+nr_of_elements = input()
+arr = []
+for i in range(int(nr_of_elements)):
+    arr.append(input())
+
+x = input()
+
+def linear_search (arr, x):
+    for i in range(len(arr)):
+        if arr[i] == x:
+            return i
+    return -1
+
+result = linear_search(arr, x)
 if result != -1:
     print ("Element is present at index %d" % result)
 else:
