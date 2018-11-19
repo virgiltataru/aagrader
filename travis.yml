@@ -1,0 +1,8 @@
+language: python
+python:
+  - "3.6"
+install:
+  - pip install -r server/requirements.txt
+# command to run tests
+script:
+  - python3 test_runner.py
