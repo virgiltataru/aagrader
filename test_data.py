@@ -118,3 +118,11 @@ if result != -1:
 else:
     print ("Element is not present in array")
 """
+
+source_code_add_numbers_from_file = """
+with open('input.txt') as f:
+    w, h = [int(x) for x in next(f).split()] # read first line
+    print(w + h)
+"""
+
+file_add_two_numbers = """12 10"""

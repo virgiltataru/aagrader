@@ -22,8 +22,8 @@ def run(source, source_extension, compile_commands, run_commands, test_cases=def
 
     try:
         source_file_name = create_source_file(source, source_extension)
-        if file_contents and file_extension:
-            create_text_file()
+        if file_contents and file_name:
+            create_text_file(file_contents, file_name)
         out_compile = compile_source(compile_commands, source_file_name, result)
         execute_tests(run_commands, test_cases, out_compile, result)
     except Exception as e:
