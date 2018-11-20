@@ -3,7 +3,7 @@ from runner import run
 from test_data import tc1, source_code_add_two_numbers, tc2, source_code_infinte_loop
 from test_data import source_binary_search, tc3, source_linear_search
 from test_data import source_code_add_numbers_from_file, file_add_two_numbers
-
+from test_data import source_binary_search_with_error
 
 def test_python3_add_two_numbers_code():
     out = run(source_code_add_two_numbers, "py", None, ["python3", "Source.py"], [tc1, tc2])
