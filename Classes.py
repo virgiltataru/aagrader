@@ -34,7 +34,9 @@ class Testcase:
         self.input = ""
         self.file = ""
         self.timeout = 2
-
+        self.expected_output=""
+    def __repr__(self):
+        return ("Id: %s, Inputs: %s" % (self.id, self.input))
 
 class Output:
     def __init__(self):
