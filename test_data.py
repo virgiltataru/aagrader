@@ -28,7 +28,7 @@ while(True):
 tc3 = Testcase()
 tc3.id = "3"
 tc3.input = """20\n10\n12\n101\n101\n112\n151\n178\n179\n181\n211\n244\n266\n277\n290\n300\n400\n411\n413\n434\n567\n434"""
-tc3.timeout = 1
+tc3.timeout = 2
 
 
 source_binary_search_with_error = """

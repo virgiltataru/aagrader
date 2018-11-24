@@ -22,9 +22,12 @@ def test_source_search():
     assert out_linear[0].stdout == out_binary[0].stdout
     print(out_linear[0].time)
     print(out_binary[0].time)
-
 def test_add_from_file():
     out = run(source_code_add_numbers_from_file, "py", None, ["python3", "Source.py"], [tc3], file_contents = file_add_two_numbers, file_name = "input.txt")
     print(out[0].stdout)
 
-test_add_from_file()
+def test_timeout():
+    out = run(source_binary_search_with_error, "py", None, ["python3", "Source.py"], [tc3], file_contents = file_add_two_numbers, file_name = "input.txt")
+    print(out[0])
+
+test_timeout()

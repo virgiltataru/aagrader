@@ -182,7 +182,7 @@ class User(Model, UserMixin):
 
     @staticmethod
     def get_by_id(uid):
-        """ Performs .query.get; potentially can be cached."""
+
         return User.query.get(uid)
 
     @staticmethod
@@ -194,7 +194,7 @@ class User(Model, UserMixin):
 
     @staticmethod
     def lookup(email):
-        """ Get a User with the given email address, or None."""
+
         return User.query.filter_by(email=email).one_or_none()
 
 class Semester(Model):
