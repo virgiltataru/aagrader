@@ -14,11 +14,12 @@ default_testcase_array = [default_test_case]
 
 
 def run(source, source_extension, compile_commands, run_commands, test_cases=default_testcase_array, file_contents = None, file_name = None):
-    result = []
     current_directory = os.getcwd()
     temp_dir = uuid.uuid4().hex
     os.makedirs(temp_dir)
     os.chdir(temp_dir)
+    result = []
+
 
     try:
         source_file_name = create_source_file(source, source_extension)
