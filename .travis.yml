@@ -5,4 +5,4 @@ install:
   - pip install -r requirments.txt
 # command to run tests
 script:
-  - python3 test_runner.py
+  - python3 Grader/test_runner.py
