@@ -4,6 +4,23 @@
 
 > #### Autograder for NYU.
 
+To run
+- source env/bin/activate
+- Go to Grader folder
+- run: python api.py
+- to post json
+{"test": [1,2],
+"code":"",
+"code_file": "code_file",
+"extension": "py",
+"test_input": [],
+"test_input_files": ["test1", "test1"],
+"test_output":["35"],
+"student": "Brad",
+"assignment_id": 111,
+"pass_req": 1
+}
+
 Tech Stack:
 
 - Backend - Django
