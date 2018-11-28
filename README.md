@@ -43,3 +43,8 @@ models
 - Assignment
 - Enrolment - contains information about who is enrolled and in which course
 - submissions - contains information about the submissions done by each student.
+
+
+mongodb is used instead of sqlite
+Matthew will work on the front-end this weekend
+API is ready
