@@ -8,8 +8,8 @@ import flask
 import json
 from Classes import Testcase
 from model import *
-from yourapplication.database import db_session
-from yourapplication.model import User
+from database import db_session
+from model import User
 
 
 
