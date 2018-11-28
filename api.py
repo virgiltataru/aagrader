@@ -7,6 +7,11 @@ from test_data import tc1, python3_source_code_add_two_numbers, tc2
 import flask
 import json
 from Classes import Testcase
+from model import *
+from yourapplication.database import db_session
+from yourapplication.model import User
+
+
 
 app= Flask(__name__)
 api= Api(app)
@@ -16,10 +21,8 @@ class check_code(Resource):
         return {'about':'Hi! Do you want me to check your code?'}
 
     def post(self):
-
         # if input from JSON
         json_data = request.get_json(force=True)
-
         python3_code= json_data['submitted_code']
         test_input= json_data['test_input']
         test_output= json_data['test_output']

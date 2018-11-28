@@ -351,10 +351,17 @@ class Enrollment(Model):
 class Submission(Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer)
+    user_name= db.Column(db.String(200))
     assignment_id = db.Column(db.Integer)
     course_id = db.Column(db.Integer)
     submitted_code = name = db.Column(db.String(5000))
+    num_passed= db.Column(db.Integer)
+    num_failed= db.Column(db.Integer)
+    num_pass_required= db.Column(db.Integer)
     results= db.Column(db.String(200))
+    checked = db.Column(db.Boolean(), nullable=False, default=False)
+    num_lines_code= db.Column(db.Integer)
+
 
 
     def __repr__(self):

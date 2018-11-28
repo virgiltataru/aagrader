@@ -18,6 +18,8 @@ def home():
     if not session.get('logged_in'):
         return render_template("login.html")
     else:
+        # what are all the semesters
+        # 
         return render_template('home.html')
 
 @app.route('/login', methods=['POST'])
