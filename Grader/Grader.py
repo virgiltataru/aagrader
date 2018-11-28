@@ -18,7 +18,7 @@ def grade(submission, test_cases):
                     'Student': submission.student,
                     'tests_compiled': len(passed) + len(failed),
                     'tests_passed': len(passed),
-                    'tests_failed': len(failed),
+                    'tests_failed': len(failed)
             }
     client = MongoClient()
     db=client.submissions
