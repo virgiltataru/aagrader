@@ -69,7 +69,7 @@ class Json(types.TypeDecorator):
         # SQL -> Python
         return json.loads(value)
 
-sclass Timezone(types.TypeDecorator):
+class Timezone(types.TypeDecorator):
     impl = types.String(255)
 
     def process_bind_param(self, value, dialect):
@@ -101,7 +101,6 @@ sclass Timezone(types.TypeDecorator):
         return values
 
 class Model(db.Model):
-    """ Timestamps all models, and serializes model objects."""
     __abstract__ = True
 
     created = db.Column(db.DateTime(timezone=True),

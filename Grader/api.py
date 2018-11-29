@@ -78,7 +78,7 @@ def check_code():
             test_cases[i].id= str(i)
             test_cases[i].input= test_input[i]
             test_cases[i].expected_output= test_output[i]
-            return jsonify({'test':test_cases[0].input, "out": str(test_cases[0].expected_output)})
+            #return jsonify({'test':test_cases[0].input, "out": str(test_cases[0].expected_output)})
     else:
         test_input_files= json_data['test_input_files']
         for i in range(len(test_input_files)):
