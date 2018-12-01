@@ -10,6 +10,7 @@ nose
 docker
 pymongo
 mosspy
+
 # Flask Extensions
 Flask-Assets>=0.12,<0.12.99
 
@@ -21,7 +22,7 @@ Flask-WTF==0.14.2
 Flask-RESTful==0.3.5
 Flask-Testing>=0.5.0,<1.0
 Flask-RQ==0.2
-
+flask_pymongo
 pyjwt==1.6.1
 
 # Flask DB Extensions

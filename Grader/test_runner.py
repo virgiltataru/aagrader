@@ -5,6 +5,7 @@ from test_data import source_binary_search, tc3, source_linear_search
 from test_data import source_code_add_numbers_from_file, file_add_two_numbers
 from test_data import source_binary_search_with_error
 from pymongo import MongoClient
+from check_similarity import *
 
 def test_python3_add_two_numbers_code():
     out = run(source_code_add_two_numbers, "py", None, ["python3", "Source.py"], [tc1, tc2])
@@ -26,10 +27,10 @@ def test_python3_add_two_numbers_code():
                 'tests_failed': len(failed)
         }
     client = MongoClient()
-    db=client.submissions
-    result= db.students.insert_one(submission)
-    print(db.students.find_one({'tests_passed': 2}))
-    result = db.students.drop()
+    db = client.submissions
+    result= db.submissions.insert_one(submission)
+    print(db.submissions.find_one({'tests_passed': 2}))
+    result = db.submissions.drop()
 
 
 
@@ -47,3 +48,26 @@ def test_add_from_file():
 def test_timeout():
     out = run(source_binary_search_with_error, "py", None, ["python3", "Source.py"], [tc3], file_contents = file_add_two_numbers, file_name = "input.txt")
     print(out[0])
+
+def test_similarity():
+    submission_1 = {
+                'hw_id': 1,
+                'Student': 'Edwin',
+                'tests_passed': 2,
+                'tests_failed': 3,
+                'code': source_linear_search
+        }
+    submission_2 = {
+                'hw_id': 1,
+                'Student': 'Alex',
+                'tests_passed': 3,
+                'tests_failed': 2,
+                'code': source_binary_search
+    }
+    client = MongoClient()
+    db = client.submissions
+    db.submissions.insert_one(submission_1)
+    db.submissions.insert_one(submission_2)
+    print(check_similarity(1))
+    result = db.submissions.drop()
+test_similarity()
