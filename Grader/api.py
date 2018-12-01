@@ -92,6 +92,11 @@ def check_code():
     student= json_data['student']
     assignment_id= json_data['assignment_id']
     pass_req= json_data['pass_req']
+    max_lines= json_data['max_lines']
+    code_total_lines= len(code.split('\n'))
+    if code_total_lines> max_lines:
+        return jsonify({'Message':"Error: # lines of code are more than permitted.", "code_total_lines": code_total_lines})
+
 
     # make a submission object
     sub= Submission()
@@ -103,7 +108,6 @@ def check_code():
     # test the code
     result= grade(sub, test_cases )
     #add add assignment ID to the result file
-    code_total_lines= len(code.split('\n'))
     result['code_total_lines']= code_total_lines
     result['assignment_id']= assignment_id
     result['pass_req']= pass_req
@@ -117,7 +121,6 @@ def check_code():
     mongo.db.submissions.insert_one(result)
 
     return jsonify({'Output':str(result)})
-    return result
 
 
 

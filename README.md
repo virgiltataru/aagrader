@@ -18,7 +18,8 @@ To run
 "test_output":["35"],
 "student": "Brad",
 "assignment_id": 111,
-"pass_req": 1
+"pass_req": 1,
+"max_lines": 5
 }
 
 Tech Stack:
