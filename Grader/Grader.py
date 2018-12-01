@@ -14,10 +14,12 @@ def grade(submission, test_cases):
                 failed.append(test_cases[i])
         else:
             error.append(test_cases[i])
-    submission = {
+    submission = {  'hw_id': submission.hw_id,
                     'Student': submission.student,
                     'tests_compiled': len(passed) + len(failed),
                     'tests_passed': len(passed),
-                    'tests_failed': len(failed)
+                    'tests_failed': len(failed),
+                    'code': submission.source,
+                    'compile_times': [i.time for i in out]
             }
     return submission

@@ -19,6 +19,7 @@ class ProgrammingLanguage(Enum):
 
 class Submission:
     def __init__(self):
+        self.hw_id = None
         self.student = ""
         self.source = ""
         self.programming_language = ""

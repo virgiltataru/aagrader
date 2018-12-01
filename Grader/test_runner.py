@@ -47,4 +47,3 @@ def test_add_from_file():
 def test_timeout():
     out = run(source_binary_search_with_error, "py", None, ["python3", "Source.py"], [tc3], file_contents = file_add_two_numbers, file_name = "input.txt")
     print(out[0])
-test_python3_add_two_numbers_code()
