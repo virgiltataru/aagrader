@@ -7,7 +7,7 @@ class Status(Enum):
     COMPILE_ERROR = 2
     RUNTIME_ERROR = 3
     TIMEOUT = 3
-    ENV_CRASH = 4
+    ENV_ISSUES = 4
 
 
 class ProgrammingLanguage(Enum):
