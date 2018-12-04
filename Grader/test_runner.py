@@ -10,7 +10,6 @@ from check_similarity import *
 def test_python3_add_two_numbers_code():
     out = run(source_code_add_two_numbers, "py", None, ["python3", "Source.py"], [tc1, tc2])
     print(out)
-    print(out[0].stdout)
     assert tc1.expected_output == out[0].stdout
     assert Status.OK == out[0].status
     print(out[0].time)
@@ -70,4 +69,4 @@ def test_similarity():
     db.submissions.insert_one(submission_2)
     print(check_similarity(1))
     result = db.submissions.drop()
-test_similarity()
+test_python3_add_two_numbers_code()

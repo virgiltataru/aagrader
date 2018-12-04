@@ -7,13 +7,8 @@ import time
 
 from Classes import Output, Status, Testcase
 
-default_test_case = Testcase()
-default_test_case.timeout = 2
-default_test_case.id = "1"
-default_testcase_array = [default_test_case]
 
-
-def run(source, source_extension, compile_commands, run_commands, test_cases=default_testcase_array, file_contents = None, file_name = None):
+def run(source, source_extension, compile_commands, run_commands, test_cases=None, file_contents = None, file_name = None):
     current_directory = os.getcwd()
     temp_dir = uuid.uuid4().hex
     os.makedirs(temp_dir)
@@ -22,7 +17,7 @@ def run(source, source_extension, compile_commands, run_commands, test_cases=def
 
 
     try:
-        source_file_name = create_source_file(source, source_extension)
+        source_file_name = create_file(source, "Source.py")
         if file_contents and file_name:
             create_text_file(file_contents, file_name)
         out_compile = compile_source(compile_commands, source_file_name, result)
@@ -82,14 +77,7 @@ def compile_source(compile_commands, source_file_name, result):
     return out_compile
 
 
-def create_source_file(source, source_extension):
-    source_file_name = "Source." + source_extension
-    text_file = open(source_file_name, "w+")
-    text_file.write(source)
-    text_file.close()
-    return source_file_name
-
-def create_text_file(file_contents, file_name):
+def create_file(file_contents, file_name):
     text_file = open(file_name, "w+")
     text_file.write(file_contents)
     text_file.close()
