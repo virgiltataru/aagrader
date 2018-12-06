@@ -1,5 +1,5 @@
 from Classes import Submission,Output, Status, Testcase
-from runner import *
+from runner import run
 #submission = Submission object
 #test_cases = list of Testcase objects
 
