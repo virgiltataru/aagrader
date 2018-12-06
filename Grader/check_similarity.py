@@ -2,12 +2,12 @@ import os
 import uuid
 import mosspy
 import shutil
+from pymongo import MongoClient
 
 MOSS_USERID = 535989500
 
 #function to check similarity of all the submissions of a specific hw
 #@return a link to a MOSS querry
-from pymongo import MongoClient
 
 def check_similarity(hw_id):
     #create a new directory to store all the files

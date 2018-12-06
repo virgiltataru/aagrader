@@ -69,4 +69,3 @@ def test_similarity():
     db.submissions.insert_one(submission_2)
     print(check_similarity(1))
     result = db.submissions.drop()
-test_python3_add_two_numbers_code()
