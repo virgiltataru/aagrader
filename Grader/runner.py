@@ -33,7 +33,7 @@ def run(source, source_extension, compile_commands, run_commands, test_cases=Non
         #create sorce file (and text file if needed) and execute the tests
         source_file_name = create_file(source, "Source.py")
         if file_contents and file_name:
-            create_text_file(file_contents, file_name)
+            create_file(file_contents, file_name)
         out_compile = compile_code(compile_commands, source_file_name, result)
         execute_tests(run_commands, test_cases, out_compile, result)
     #permission errors, environment problems, ect
