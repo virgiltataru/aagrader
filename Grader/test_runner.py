@@ -5,7 +5,7 @@ from test_data import source_binary_search, tc3, source_linear_search
 from test_data import source_code_add_numbers_from_file, file_add_two_numbers
 from test_data import source_binary_search_with_error
 from pymongo import MongoClient
-from check_similarity import *
+from check_similarity import check_similarity
 
 def test_python3_add_two_numbers_code():
     out = run(source_code_add_two_numbers, "py", None, ["python3", "Source.py"], [tc1, tc2])
@@ -14,7 +14,7 @@ def test_python3_add_two_numbers_code():
     assert Status.OK == out[0].status
     print(out[0].time)
     print(out[1])
-    nr_tests_passed, passed, failed = 0, [], []
+    passed, failed =[], []
     for output in out:
         if output.status == Status.OK:
             passed.append(out)
@@ -27,7 +27,7 @@ def test_python3_add_two_numbers_code():
         }
     client = MongoClient()
     db = client.submissions
-    result= db.submissions.insert_one(submission)
+    db.submissions.insert_one(submission)
     print(db.submissions.find_one({'tests_passed': 2}))
     result = db.submissions.drop()
 
@@ -63,9 +63,21 @@ def test_similarity():
                 'tests_failed': 2,
                 'code': source_binary_search
     }
+
+    submission_3 ={
+                'hw_id': 1,
+                'Student': 'Julius',
+                'tests_passed': 5,
+                'tests_failed': 2,
+                'code': source_binary_search
+
+    }
     client = MongoClient()
     db = client.submissions
     db.submissions.insert_one(submission_1)
     db.submissions.insert_one(submission_2)
+    db.submissions.insert_one(submission_3)
     print(check_similarity(1))
-    result = db.submissions.drop()
+    db.submissions.drop()
+
+test_similarity()
