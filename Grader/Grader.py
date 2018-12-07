@@ -1,11 +1,11 @@
 from Classes import Submission,Output, Status, Testcase
-from runner import run
+from runner import run_source
 #submission = Submission object
 #test_cases = list of Testcase objects
 
 def grade(submission, test_cases):
     passed, failed, error = [], [], []
-    out = run(submission.source, submission.file_extension, None, ["python3", "Source.py"], test_cases)
+    out = run_source(submission.source, submission.file_extension, None, ["python3", "Source.py"], test_cases)
     for i in range(len(out)):
         if out[i].status == Status.OK:
             if out[i].stdout == test_cases[i].expected_output:

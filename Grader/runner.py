@@ -19,7 +19,7 @@ import shutil
 from Classes import Output, Status, Testcase
 
 #@ array of Output objects
-def run(source, source_extension, compile_commands, run_commands, test_cases=None, file_contents = None, file_name = None):
+def run_source(source, source_extension, compile_commands, run_commands, test_cases=None, file_contents = None, file_name = None):
     #create a new directory where the files will be created in
     #so we can remove them easily after
     current_directory = os.getcwd()

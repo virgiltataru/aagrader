@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from flask_restful import Resource, Api
 from requests import put, get
 from Classes import Status
-from runner import run
+from runner import run_source
 from test_data import tc1, python3_source_code_add_two_numbers, tc2
 import flask
 import json
@@ -34,7 +34,7 @@ class check_code(Resource):
         tc1.input = test_input
         tc1.timeout = 1
 
-        out = run(python3_code, extension , None, ["python3", "Source.py"], [tc1])
+        out = run_source(python3_code, extension , None, ["python3", "Source.py"], [tc1])
 
         print(out)
         try:
