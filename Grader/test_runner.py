@@ -29,7 +29,7 @@ def test_python3_add_two_numbers_code():
     db = client.submissions
     db.submissions.insert_one(submission)
     print(db.submissions.find_one({'tests_passed': 2}))
-    result = db.submissions.drop()
+    db.submissions.drop()
 
 
 
@@ -79,5 +79,3 @@ def test_similarity():
     db.submissions.insert_one(submission_3)
     print(check_similarity(1))
     db.submissions.drop()
-
-test_similarity()
