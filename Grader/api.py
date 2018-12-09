@@ -11,7 +11,7 @@ from flask import Flask
 from flask_pymongo import PyMongo
 from Grader import *
 import importlib
-
+from check_similarity import *
 
 
 app = Flask(__name__)
@@ -40,6 +40,11 @@ def get_by_name(name):
         documents["document "+str(i)]= str(document)
         i=i+1
     return jsonify(documents)
+
+@app.route('/check_submissions_similarity/<id>', methods=['GET'])
+def get_submission_similarity(id):
+    ans = check_similarity(id)
+    return jsonify(ans)
 
 @app.route('/get_by_assignment_id/<id>', methods=['GET'])
 def get_by_assignment_id(id):
