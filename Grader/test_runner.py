@@ -47,7 +47,7 @@ def test_add_from_file():
 def test_timeout():
     out = run_source(source_binary_search_with_error, "py", None, ["python3", "Source.py"], [tc3], file_contents = file_add_two_numbers, file_name = "input.txt")
     print(out[0])
-
+#returned http://moss.stanford.edu/results/577007998
 def test_similarity():
     submission_1 = {
                 'hw_id': 1,
