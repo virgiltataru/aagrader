@@ -18,7 +18,7 @@ def check_similarity(hw_id):
     #populate files with student names and subbmited code
     client = MongoClient()
     db = client.submissions
-    ans= db.submissions.find({'hw_id': hw_id})
+    ans= db.submissions.find({'assignment_id': int(hw_id)})
     for a in ans:
         with open(a['Student'] + ".py", 'w+') as f:
             f.write(a['code'])

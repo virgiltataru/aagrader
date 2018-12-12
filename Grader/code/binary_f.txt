@@ -1,7 +1,5 @@
-
-nr_of_elements = int(input())
 arr = []
-for i in range(nr_of_elements):
+for i in range(5):
     arr.append(input())
 
 x = input()
@@ -10,7 +8,7 @@ def binarySearch (arr, l, r, x):
 
     if r >= l:
 
-        mid = l + (r - l)//2
+        mid = l + (r - l)/2
 
         if arr[mid] == x:
             return mid
@@ -27,6 +25,6 @@ def binarySearch (arr, l, r, x):
 result = binarySearch(arr, 0, len(arr)-1, x)
 
 if result != -1:
-    print ("Element is present at index %d" % result)
+    print (result)
 else:
-    print ("Element is not present in array")
+    print (-1)

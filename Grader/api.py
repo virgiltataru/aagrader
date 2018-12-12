@@ -54,7 +54,7 @@ def get_submission_similarity(id):
 # for an assignment, get all submission of all the students.
 @app.route('/get_by_assignment_id/<id>', methods=['GET'])
 def get_by_assignment_id(id):
-    ans= mongo.db.submissions.find({"assignment_id": id})
+    ans= mongo.db.submissions.find({"assignment_id": int(id)})
     documents={}
     i=0
     for document in ans:
