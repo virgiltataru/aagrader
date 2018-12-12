@@ -38,10 +38,17 @@ def post():
 def get_by_name(name):
     ans= mongo.db.submissions.find({"Student": name})
     documents={}
+    pas=[]
+    fail=[]
     i=0
     for document in ans:
         documents["document "+str(i)]= str(document)
         i=i+1
+        if document['result']== 'pass':
+            pas.append(document['assignment_id'])
+        else:
+            fail.append(document['assignment_id'])
+    documents["report"]={"pass": pas, "total_pass": len(pas), "fail": fail, "total_fail":len(fail)}
     return jsonify(documents)
 
 
@@ -56,10 +63,17 @@ def get_submission_similarity(id):
 def get_by_assignment_id(id):
     ans= mongo.db.submissions.find({"assignment_id": int(id)})
     documents={}
+    pas=[]
+    fail=[]
     i=0
     for document in ans:
         documents["document "+str(i)]= str(document)
         i=i+1
+        if document['result']== 'pass':
+            pas.append(document['Student'])
+        else:
+            fail.append(document['Student'])
+    documents["report"]={"pass": pas, "total_pass": len(pas), "fail": fail, "total_fail":len(fail)}
     return jsonify(documents)
 
 #check code and return a report.
