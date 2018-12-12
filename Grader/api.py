@@ -48,7 +48,7 @@ def get_by_name(name):
 # get all similar submissions using assignment id
 @app.route('/check_submissions_similarity/<id>', methods=['GET'])
 def get_submission_similarity(id):
-    ans = check_similarity(id)
+    ans = check_similarity(mongo, id)
     return jsonify(ans)
 
 # for an assignment, get all submission of all the students.
