@@ -51,6 +51,28 @@ def get_by_name(name):
     documents["report"]={"pass": pas, "total_pass": len(pas), "fail": fail, "total_fail":len(fail)}
     return jsonify(documents)
 
+# get all submission of a class.
+@app.route('/get_by_class_name/<name>', methods=['GET'])
+def get_by_class_name(name):
+    ans= mongo.db.submissions.find({"class": name})
+    documents={}
+    assignments={}
+
+    i=0
+    for document in ans:
+        documents["document "+str(i)]= str(document)
+        i=i+1
+        if document['assignment_id'] not in assignments.keys():
+            assignments[document['assignment_id']]={ "pass":[],"total_pass":0, "fail":[], "total_fail":0 }
+
+        if document['result']== 'pass':
+            assignments[document['assignment_id']]["pass"].append(document['Student'])
+            assignments[document['assignment_id']]["total_pass"]=assignments[document['assignment_id']]["total_pass"]+1
+        else:
+            assignments[document['assignment_id']]["fail"].append(document['Student'])
+            assignments[document['assignment_id']]["total_fail"]=assignments[document['assignment_id']]["total_fail"]+1
+    documents["report_by_assignment"]=assignments
+    return jsonify(documents)
 
 # get all similar submissions using assignment id
 @app.route('/check_submissions_similarity/<id>', methods=['GET'])
@@ -118,6 +140,7 @@ def check_code():
     assignment_id= json_data['assignment_id']
     pass_req= json_data['pass_req']
     max_lines= json_data['max_lines']
+    clas= json_data['class']
     code_total_lines= len(code.split('\n'))
     if code_total_lines> max_lines:
         return jsonify({'Message':"Error: # lines of code are more than permitted.", "code_total_lines": code_total_lines})
@@ -136,7 +159,7 @@ def check_code():
     result['code_total_lines']= code_total_lines
     result['assignment_id']= assignment_id
     result['pass_req']= pass_req
-
+    result['class']= clas
 
     if result['tests_passed']>=result['pass_req']:
         result['result']="pass"
