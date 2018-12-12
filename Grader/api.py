@@ -45,6 +45,7 @@ def get_by_name(name):
     return jsonify(documents)
 
 
+# get all similar submissions using assignment id
 @app.route('/check_submissions_similarity/<id>', methods=['GET'])
 def get_submission_similarity(id):
     ans = check_similarity(id)
