@@ -15,22 +15,25 @@ from check_similarity import *
 
 
 app = Flask(__name__)
+# Connect to the mongo db database running at the local server.
 app.config["MONGO_URI"] = "mongodb://localhost:27017/autograder"
 mongo = PyMongo(app)
 
 
 app= Flask(__name__)
 
+# just to test
 @app.route('/', methods=['GET'])
 def get():
     return jsonify({'test':"OK"})
-
+# just to test
 @app.route('/', methods=['POST'])
 def post():
     json_data = request.get_json(force=True)
     test= json_data['test']
     return jsonify({'test':str(test)})
 
+# get all submission of a student.
 @app.route('/get_by_name/<name>', methods=['GET'])
 def get_by_name(name):
     ans= mongo.db.submissions.find({"Student": name})
@@ -41,11 +44,13 @@ def get_by_name(name):
         i=i+1
     return jsonify(documents)
 
+
 @app.route('/check_submissions_similarity/<id>', methods=['GET'])
 def get_submission_similarity(id):
     ans = check_similarity(id)
     return jsonify(ans)
 
+# for an assignment, get all submission of all the students.
 @app.route('/get_by_assignment_id/<id>', methods=['GET'])
 def get_by_assignment_id(id):
     ans= mongo.db.submissions.find({"assignment_id": id})
@@ -56,7 +61,7 @@ def get_by_assignment_id(id):
         i=i+1
     return jsonify(documents)
 
-
+#check code and return a report.
 @app.route('/check_code', methods=['POST'])
 def check_code():
     # if input from JSON
