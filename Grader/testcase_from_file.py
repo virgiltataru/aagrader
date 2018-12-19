@@ -19,5 +19,5 @@ def get_test_case(name= ''):
             test_case.expected_output= s[2].rstrip().replace(' ', '\n')
             test_case.timeout = int(s[3].rstrip())
             return test_case
-
+    
 print(get_test_case())

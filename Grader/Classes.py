@@ -19,6 +19,7 @@ class Testcase:
         self.file = ""
         self.timeout = 2
         self.expected_output=""
+        self.hidden = True
     def __repr__(self):
         return ("Id: %s, Inputs: %s" % (self.id, self.input))
 
